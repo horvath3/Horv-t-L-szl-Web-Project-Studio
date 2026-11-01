@@ -1,0 +1,73 @@
+name: Build HL Studio Android APK (Web + Admin Panel)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      live_server_url:
+        description: 'Élő weboldal szerver URL (Web <-> App szinkronizációhoz)'
+        required: false
+        default: ''
+
+jobs:
+  build-apk:
+    name: Android APK Fordítás (Capacitor + Admin Panel)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js 20 beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Java JDK 21 beállítása (Android Gradle-höz)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Android SDK beállítása
+        uses: android-actions/setup-android@v3
+
+      - name: Függőségek és Capacitor Android telepítése
+        run: |
+          npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+
+      - name: Teljes Weboldal + Studio Admin Panel lefordítása
+        run: npm run build
+
+      - name: Capacitor Android projekt inicializálása és szinkronizálása
+        run: |
+          if [ -n "${{ github.event.inputs.live_server_url }}" ]; then
+            node -e '
+              const fs = require("fs");
+              const cfg = JSON.parse(fs.readFileSync("capacitor.config.json", "utf8"));
+              cfg.server = cfg.server || {};
+              cfg.server.url = process.env.LIVE_URL;
+              fs.writeFileSync("capacitor.config.json", JSON.stringify(cfg, null, 2));
+            '
+          fi
+          if [ ! -d "android" ]; then
+            npx cap add android
+          fi
+          npx cap sync android
+        env:
+          LIVE_URL: ${{ github.event.inputs.live_server_url }}
+
+      - name: Android .APK lefordítása (Gradle assembleDebug)
+        working-directory: ./android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Elkészült HL-Studio.apk feltöltése letölthető csomagként
+        uses: actions/upload-artifact@v4
+        with:
+          name: HL-Studio-Android-APK-v2.4.0
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

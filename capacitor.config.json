@@ -1,0 +1,15 @@
+{
+  "appId": "hu.horvatlaszlo.studio",
+  "appName": "HL Studio",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true,
+    "allowNavigation": ["*"]
+  },
+  "android": {
+    "allowMixedContent": true,
+    "backgroundColor": "#080a0f"
+  }
+}

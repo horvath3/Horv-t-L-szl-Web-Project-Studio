@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="hu" class="dark scroll-smooth">
+  <head>
+    <script>
+      // Compatibility shim: Prevent "Cannot set property fetch of #<Window> which has only a getter"
+      (function() {
+        try {
+          var origFetch = typeof window.fetch === 'function' ? window.fetch.bind(window) : window.fetch;
+          var currentFetch = origFetch;
+          var descriptor = {
+            get: function() { return currentFetch; },
+            set: function(fn) {
+              if (typeof fn === 'function') {
+                currentFetch = fn.bind(window);
+              } else {
+                currentFetch = fn;
+              }
+            },
+            configurable: true,
+            enumerable: true
+          };
+          if (window.Window && Window.prototype) {
+            var protoDesc = Object.getOwnPropertyDescriptor(Window.prototype, 'fetch');
+            if (!protoDesc || protoDesc.configurable !== false) {
+              try {
+                Object.defineProperty(Window.prototype, 'fetch', descriptor);
+              } catch (_) {}
+            }
+          }
+          var winDesc = Object.getOwnPropertyDescriptor(window, 'fetch');
+          if (!winDesc || winDesc.configurable !== false) {
+            try {
+              Object.defineProperty(window, 'fetch', descriptor);
+            } catch (_) {}
+          }
+        } catch (_) {}
+
+        // Global safeguard against unhandled getter-only assignment errors
+        window.addEventListener('error', function(event) {
+          if (event && event.message && event.message.indexOf('fetch') !== -1 && event.message.indexOf('getter') !== -1) {
+            if (typeof event.preventDefault === 'function') {
+              event.preventDefault();
+            }
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#080a0f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="HL Studio" />
+    <meta name="application-name" content="HL Studio" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>Horvát László – Web & Project Studio | Weboldal és Projektfejlesztés</title>
+    <meta
+      name="description"
+      content="Ötletből működő digitális projekt. Weboldalak, webalkalmazások és egyedi szoftverprojektek készítése modern technológiákkal – Horvát László."
+    />
+    <meta name="author" content="Horvát László" />
+    <meta name="keywords" content="Horvát László, webfejlesztés, webdesigner, webalkalmazás, szoftverfejlesztés, React, TypeScript, UI/UX" />
+    
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Horvát László – Web & Project Studio" />
+    <meta
+      property="og:description"
+      content="Weboldalakat, webalkalmazásokat és egyedi digitális projekteket készítek modern technológiákkal."
+    />
+    <meta property="og:site_name" content="Horvát László Studio" />
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Horvát László – Web & Project Studio" />
+    <meta
+      name="twitter:description"
+      content="Weboldalakat, webalkalmazásokat és egyedi digitális projekteket készítek modern technológiákkal."
+    />
+
+    <!-- Google Fonts: Plus Jakarta Sans & Syne -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon & iOS Home Screen Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Horvát László – Web & Project Studio",
+      "founder": {
+        "@type": "Person",
+        "name": "Horvát László",
+        "jobTitle": "Webdesigner & Webfejlesztő"
+      },
+      "description": "Weboldalak, webalkalmazások és egyedi digitális szoftverprojektek tervezése és fejlesztése.",
+      "url": "https://horvatlaszlo.studio",
+      "knowsAbout": ["Web Development", "React", "TypeScript", "UI/UX Design", "Custom Software", "AI Integration"]
+    }
+    </script>
+  </head>
+  <body class="bg-[#090b10] text-slate-100 antialiased selection:bg-indigo-600 selection:text-white min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

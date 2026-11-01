@@ -1,0 +1,8 @@
+{
+  "name": "Horvát László – Web & Project Studio",
+  "description": "Horvát László webdesigner, webfejlesztő és projektkészítő hivatalos bemutatkozó és portfólió weboldala.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

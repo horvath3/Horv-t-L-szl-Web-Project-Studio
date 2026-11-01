@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #080a0f;
+    color: #f1f5f9;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+  }
+
+  /* Prevent iOS Safari automatic zoom when focusing form inputs on mobile */
+  @media screen and (max-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* iOS Safe Area Support (Notch / Dynamic Island / Home Indicator) */
+.ios-safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.ios-safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Sparkling & Sliding Navbar Indicator Animations */
+@keyframes navSparkleFly {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.2) rotate(0deg);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(calc(var(--tx, 0px) * 0.3), calc(var(--ty, 0px) * 0.3)) scale(1.25) rotate(45deg);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translate(calc(var(--tx, 0px) * 0.85), calc(var(--ty, 0px) * 0.85)) scale(0.9) rotate(120deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0) rotate(180deg);
+  }
+}
+
+@keyframes navCometPulse {
+  0%, 100% {
+    transform: translateY(-50%) scale(1) rotate(0deg);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateY(-50%) scale(1.35) rotate(90deg);
+    opacity: 1;
+  }
+}
+
+.animate-nav-sparkle {
+  animation: navSparkleFly var(--dur, 520ms) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+.animate-nav-comet {
+  animation: navCometPulse 360ms ease-in-out infinite;
+}
+
+@media all and (display-mode: standalone) {
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  input,
+  textarea,
+  [contenteditable="true"] {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+}
+
+/* Glassmorphism and ambient glows */
+.glass-panel {
+  background: rgba(15, 19, 29, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(22, 28, 42, 0.85);
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(79, 70, 229, 0.15);
+}
+
+.glass-card {
+  background: rgba(14, 18, 27, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+}
+
+.glass-nav {
+  background: rgba(8, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Subtle glow accents */
+.ambient-glow-indigo {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
+  pointer-events: none;
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.ambient-glow-purple {
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0) 70%);
+  pointer-events: none;
+  filter: blur(60px);
+  z-index: 0;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}

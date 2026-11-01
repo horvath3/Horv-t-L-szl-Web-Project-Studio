@@ -1,0 +1,6 @@
+{
+  "summary":  "Részletes megvalósítási terv az élő közvetítés képernyőfelirat (Live HUD Overlay), szünet/ebédszünet képernyő és valós idejű visszaszámláló időzítő funkciókhoz mindhárom közvetítési linken (állandó privát link, egyszeri rejtett link és nyilvános közvetítés).",
+  "updatedAt":  "2026-11-01T10:07:25.611523444Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}
